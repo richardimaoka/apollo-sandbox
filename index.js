@@ -1,9 +1,15 @@
 const { ApolloServer, gql } = require("apollo-server");
+const casual = require("casual");
 
 const typeDefs = gql`
+  type Person {
+    name: String
+    age: Int
+  }
   type Query {
     hello: String
     resolved: String
+    persons: [Person]
   }
 `;
 
@@ -17,6 +23,10 @@ const mocks = {
   Int: () => 6,
   Float: () => 22.1,
   String: () => "Hello",
+  Person: () => ({
+    name: casual.name,
+    age: () => casual.integer(0, 120),
+  }),
 };
 
 const server = new ApolloServer({
