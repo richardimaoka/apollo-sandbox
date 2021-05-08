@@ -5,7 +5,7 @@ const typeDefs = gql`
   type Person {
     name: String
     age: Int
-    friends: [Person]
+    friends: [Int]
     listOfLists: [[Int]]
   }
   type Query {
@@ -29,6 +29,7 @@ const mocks = {
     name: casual.name,
     age: () => casual.integer(0, 120),
     // a list of length between 2 and 6 (inclusive), doesn't need to specify the type
+
     friends: () => new MockList([2, 6]),
     // a list of three lists each with two items: [[1, 1], [2, 2], [3, 3]]
     listOfLists: () => new MockList(3, () => new MockList(2)),
