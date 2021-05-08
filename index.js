@@ -1,29 +1,12 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { buildClientSchema } = require("graphql");
+const introspectionResult = require("./schema.json");
+const { ApolloServer } = require("apollo-server");
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-    resolved: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    resolved: () => "Resolved",
-  },
-};
-
-const mocks = {
-  Int: () => 6,
-  Float: () => 22.1,
-  String: () => "Hello",
-};
+const schema = buildClientSchema(introspectionResult.data);
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  mocks,
-  mockEntireSchema: true,
+  schema,
+  mocks: true,
 });
 
 server.listen().then(({ url }) => {
