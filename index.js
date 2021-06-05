@@ -15,6 +15,35 @@ const typeDefs = gql`
   }
 `;
 
+const addressString = new GraphQLScalarType({
+  name: "AddressString",
+  description: "Single-line string representation of address",
+  serialize(addressObj) {
+    return `${addressObj.zipCode} ${addressObj.prefecture} ${addressObj.city} ${addressObj.street}`; // Convert outgoing Date to integer for JSON
+  },
+  parseValue(addressString) {
+    addressStringParts = addressString.split(" ");
+    if (addressStringParts.length !== 4) {
+      throw new Error(
+        `parsing addressString ${addressString} got a non-4 length = ${addressString.length}`
+      );
+    } else {
+      return {
+        zipCode: addressStringParts[0],
+        prefecture: addressStringParts[1],
+        city: addressStringParts[2],
+        street: addressStringParts[3],
+      };
+    }
+  },
+  parseLiteral(ast) {
+    if (ast.kind === Kind.INT) {
+      return new Date(parseInt(ast.value, 10)); // Convert hard-coded AST string to integer and then to Date
+    }
+    return null; // Invalid hard-coded value (not an integer)
+  },
+});
+
 const addressObj1 = {
   zipCode: "123-0035",
   prefecture: "東京都",
@@ -45,6 +74,7 @@ const resolvers = {
       return parent.name;
     },
   },
+  AddressString: addressString,
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
