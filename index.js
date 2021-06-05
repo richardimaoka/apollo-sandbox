@@ -59,7 +59,10 @@ const resolvers = {
   //  s: () => "str",
   //},
   Event: {
-    someObj() {
+    someObj(parent, args, context, info) {
+      console.log("----------------------------");
+      console.log(parent);
+      console.log(context);
       return {
         i: 1,
         s: "str",
@@ -74,7 +77,22 @@ const resolvers = {
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: function (r) {
+    //console.log(r.req.complete);
+    //console.log(r.req.rawHeaders);
+    //console.log(r.req.url);
+    //console.log(r.req.method);
+    //console.log(r.req.statusCode);
+    //console.log(r.req.params);
+    //console.log(r.req.query);
+    //console.log(r.req.body);
+    console.log(r.req.body.operationName);
+    return { a: "aaa", b: "bbb" };
+  },
+});
 
 // The `listen` method launches a web server.
 server.listen().then(({ url }) => {
