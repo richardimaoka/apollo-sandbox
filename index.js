@@ -37,9 +37,11 @@ const typeDefs = gql`
 const events = [
   {
     id: "The Awakening",
+    date: new Date(),
   },
   {
     id: "The Awakening",
+    date: new Date(),
   },
 ];
 
