@@ -3,46 +3,46 @@ const { GraphQLScalarType, Kind } = require("graphql");
 
 // Basic schema
 const typeDefs = gql`
-  scalar Odd
+  scalar AddressString
 
-  type MyType {
-    oddValue: Odd
+  type User {
+    name: String
+    address: AddressString
   }
 
   type Query {
-    my: MyType
+    users: [User]
   }
 `;
 
-// Validation function
-function oddValue(value) {
-  return value % 2 === 1 ? value : null;
-}
-
-const myt = {
-  oddValue: 11,
+const addressObj1 = {
+  zipCode: "123-0035",
+  prefecture: "東京都",
+  city: "江戸川区",
+  street: "江戸川町4-1-1",
 };
+
+const addressObj2 = {
+  zipCode: "123-3541",
+  prefecture: "東京都",
+  city: "墨田区",
+  street: "墨田町2-28-1",
+};
+
+const users = [
+  { name: "高山高矢", address: addressObj1 },
+  { name: "大崎大五郎", address: addressObj2 },
+];
+
 const resolvers = {
-  Odd: new GraphQLScalarType({
-    name: "Odd",
-    description: "Odd custom scalar type",
-    parseValue: oddValue,
-    serialize: oddValue,
-    parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        return oddValue(parseInt(ast.value, 10));
-      }
-      return null;
-    },
-  }),
   Query: {
-    my() {
-      return myt;
+    users() {
+      return users;
     },
   },
-  MyType: {
-    oddValue(parent) {
-      return parent.oddValue * 3;
+  User: {
+    name(parent) {
+      return parent.name;
     },
   },
 };
