@@ -31,7 +31,7 @@ const typeDefs = gql`
 
   type Event {
     id: ID!
-    date: Date!
+    date: Date
     someObj: SomeObj
   }
 
@@ -43,11 +43,9 @@ const typeDefs = gql`
 const events = [
   {
     id: "The Awakening",
-    date: new Date(),
   },
   {
     id: "The Awakening",
-    date: new Date(),
   },
 ];
 
