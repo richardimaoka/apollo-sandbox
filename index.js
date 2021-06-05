@@ -8,6 +8,10 @@ const typeDefs = gql`
   type MyType {
     oddValue: Odd
   }
+
+  type Query {
+    my: MyType
+  }
 `;
 
 // Validation function
@@ -15,6 +19,9 @@ function oddValue(value) {
   return value % 2 === 1 ? value : null;
 }
 
+const myt = {
+  oddValue: 11,
+};
 const resolvers = {
   Odd: new GraphQLScalarType({
     name: "Odd",
@@ -28,6 +35,16 @@ const resolvers = {
       return null;
     },
   }),
+  Query: {
+    my() {
+      return myt;
+    },
+  },
+  MyType: {
+    oddValue(parent) {
+      return parent.oddValue * 3;
+    },
+  },
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
