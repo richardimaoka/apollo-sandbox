@@ -24,9 +24,15 @@ const dateScalar = new GraphQLScalarType({
 const typeDefs = gql`
   scalar Date
 
+  type SomeObj {
+    i: Int
+    s: String
+  }
+
   type Event {
     id: ID!
     date: Date!
+    someObj: SomeObj
   }
 
   type Query {
@@ -48,6 +54,18 @@ const events = [
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
+  //SomeObj: {
+  //  i: () => 1,
+  //  s: () => "str",
+  //},
+  Event: {
+    someObj() {
+      return {
+        i: 1,
+        s: "str",
+      };
+    },
+  },
   Date: dateScalar,
   Query: {
     events: () => events,
