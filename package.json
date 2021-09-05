@@ -1,0 +1,23 @@
+{
+  "name": "apollo-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardimaoka/apollo-sandbox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardimaoka/apollo-sandbox/issues"
+  },
+  "homepage": "https://github.com/richardimaoka/apollo-sandbox#readme",
+  "dependencies": {
+    "@apollo/client": "^3.4.10",
+    "graphql": "^15.5.2"
+  }
+}
