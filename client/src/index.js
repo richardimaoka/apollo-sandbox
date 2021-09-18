@@ -74,7 +74,15 @@ function AddTodo() {
       text: "placeholder",
       someOtherVariable: 1234,
     },
+    onError: (error) => {
+      console.log("onerror called\n", error);
+    },
   });
+
+  if (error) {
+    console.log("addTodError occured\n", error);
+    return <div>Submission error</div>;
+  }
 
   return (
     <div>

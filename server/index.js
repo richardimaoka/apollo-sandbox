@@ -36,6 +36,7 @@ const resolvers = {
   },
   Mutation: {
     addTodo: (_, { type }) => {
+      console.log("addTodo received");
       const id = generate();
       const todo = { type, id };
       cache.set(id, type);
@@ -52,6 +53,10 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  formatError: (err) => {
+    console.log("formatError is called on ", err);
+    return err;
+  },
 });
 
 server.listen().then(({ url }) => {
