@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {
   ApolloClient,
@@ -10,11 +9,59 @@ import {
   useQuery,
   gql,
 } from "@apollo/client";
+import logo from "./logo.svg";
+import "./App.css";
 
 const client = new ApolloClient({
   uri: "https://48p1r2roz4.sse.codesandbox.io",
   cache: new InMemoryCache(),
 });
+
+const EXCHANGE_RATES = gql`
+  query GetExchangeRates {
+    rates(currency: "USD") {
+      currency
+      rate
+    }
+  }
+`;
+
+function ExchangeRates() {
+  const { loading, error, data } = useQuery(EXCHANGE_RATES);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  return data.rates.map(({ currency, rate }) => (
+    <div key={currency}>
+      <p>
+        {currency}: {rate}
+      </p>
+    </div>
+  ));
+}
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+        <ExchangeRates />
+      </header>
+    </div>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
