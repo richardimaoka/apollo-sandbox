@@ -68,6 +68,7 @@ function Todos() {
 
 function AddTodo() {
   let input;
+
   const [addTodo, { data, loading, error }] = useMutation(ADD_TODO, {
     //default values
     variables: {
@@ -76,11 +77,14 @@ function AddTodo() {
     },
     onError: (error) => {
       console.log("onerror called\n", error);
+      console.log(error.graphQLErrors);
+      console.log(error.networkError.result.errors);
+      console.log(error.networkError.message);
     },
   });
-
   if (error) {
     console.log("addTodError occured\n", error);
+    console.log(error.graphQLErrors);
     return <div>Submission error</div>;
   }
 
