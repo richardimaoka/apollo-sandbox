@@ -1,78 +1,115 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
+import { render } from "react-dom";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
+  useMutation,
   useQuery,
   gql,
 } from "@apollo/client";
-import logo from "./logo.svg";
-import "./App.css";
 
 const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io",
+  uri: "https://sxewr.sse.codesandbox.io/",
   cache: new InMemoryCache(),
 });
 
-const EXCHANGE_RATES = gql`
-  query GetExchangeRates {
-    rates(currency: "USD") {
-      currency
-      rate
+const GET_TODOS = gql`
+  {
+    todos {
+      id
+      type
     }
   }
 `;
 
-function ExchangeRates() {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
+const ADD_TODO = gql`
+  mutation AddTodo($text: String!) {
+    addTodo(text: $text) {
+      id
+      text
+    }
+  }
+`;
+
+function Todos() {
+  const { loading, error, data } = useQuery(GET_TODOS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
-      </p>
-    </div>
-  ));
+  return data.todos.map(({ id, type }) => {
+    let input;
+
+    return (
+      <div key={id}>
+        <p>{type}</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (!input.value.trim()) {
+              return;
+            }
+
+            input.value = "";
+          }}
+        >
+          <input
+            ref={(node) => {
+              input = node;
+            }}
+          />
+          <button type="submit">Update Todo</button>
+        </form>
+      </div>
+    );
+  });
 }
 
-function App() {
+function AddTodo() {
+  let input;
+  const [addTodo, { data, loading, error }] = useMutation(ADD_TODO, {
+    //default values
+    variables: {
+      text: "placeholder",
+      someOtherVariable: 1234,
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <ExchangeRates />
-      </header>
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addTodo({ variables: { text: input.value } });
+          if (!input.value.trim()) {
+            return;
+          }
+
+          input.value = "";
+        }}
+      >
+        <input
+          ref={(node) => {
+            input = node;
+          }}
+        />
+        <button type="submit">Add Todo</button>
+      </form>
     </div>
   );
 }
 
-ReactDOM.render(
-  <React.StrictMode>
+function App() {
+  return (
     <ApolloProvider client={client}>
-      <App />
+      <div>
+        <h2>Building Mutation components 🚀</h2>
+        <AddTodo />
+        <Todos />
+      </div>
     </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+  );
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+render(<App />, document.getElementById("root"));
