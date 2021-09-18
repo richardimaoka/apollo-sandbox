@@ -10,7 +10,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://sxewr.sse.codesandbox.io/",
+  uri: "http://localhost:4000",
   cache: new InMemoryCache(),
 });
 
