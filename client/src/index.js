@@ -24,10 +24,10 @@ const GET_TODOS = gql`
 `;
 
 const ADD_TODO = gql`
-  mutation AddTodo($text: String!) {
-    addTodo(text: $text) {
+  mutation AddTodo($type: String!) {
+    addTodo(type: $type) {
       id
-      text
+      type
     }
   }
 `;
@@ -72,7 +72,7 @@ function AddTodo() {
   const [addTodo, { data, loading, error }] = useMutation(ADD_TODO, {
     //default values
     variables: {
-      text: "placeholder",
+      type: "placeholder",
       someOtherVariable: 1234,
     },
     onError: (error) => {
@@ -93,7 +93,7 @@ function AddTodo() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addTodo({ variables: { text: input.value } });
+          addTodo({ variables: { type: input.value } });
           if (!input.value.trim()) {
             return;
           }
