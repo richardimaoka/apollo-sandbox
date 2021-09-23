@@ -36,6 +36,7 @@ const resolvers = {
   },
   Mutation: {
     addTodo: (_: any, { type }: { type: string }) => {
+      throw new Error("aaaaaaaaaaaaaaaaaaa");
       console.log("addTodo received");
       const id = generate();
       const todo = { type, id };
