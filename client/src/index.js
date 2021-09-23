@@ -76,10 +76,13 @@ function AddTodo() {
       someOtherVariable: 1234,
     },
     onError: (error) => {
+      //onError is needed otherwise the client throws an exception on networkError
       console.log("onerror called\n", error);
-      console.log(error.graphQLErrors);
-      console.log(error.networkError.result.errors);
-      console.log(error.networkError.message);
+      console.log("error.graphQLErrors", error.graphQLErrors);
+      if (error.networkError) {
+        console.log("error.networkError", error.networkError);
+        console.log("error.networkError.result", error.networkError.result);
+      }
     },
   });
   if (error) {
