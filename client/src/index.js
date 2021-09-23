@@ -76,7 +76,7 @@ function AddTodo() {
       someOtherVariable: 1234,
     },
     onError: (error) => {
-      //onError is needed otherwise the client throws an exception on networkError
+      //onError is needed otherwise the client throws an exception on errors
       console.log("onerror called\n", error);
       console.log("error.graphQLErrors", error.graphQLErrors);
       if (error.networkError) {
