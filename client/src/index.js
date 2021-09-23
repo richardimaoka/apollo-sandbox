@@ -85,7 +85,9 @@ function AddTodo() {
       }
     },
   });
-  if (error) {
+  if (loading) {
+    console.log("submitting");
+  } else if (error) {
     console.log("addTodError occured\n", error);
     console.log(error.graphQLErrors);
     return <div>Submission error</div>;

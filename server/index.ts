@@ -35,8 +35,13 @@ const resolvers = {
     },
   },
   Mutation: {
-    addTodo: (_: any, { type }: { type: string }) => {
-      throw new Error("aaaaaaaaaaaaaaaaaaa");
+    addTodo: async (_: any, { type }: { type: string }) => {
+      await sleep(1000);
+      function sleep(ms: number) {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms);
+        });
+      }
       console.log("addTodo received");
       const id = generate();
       const todo = { type, id };
