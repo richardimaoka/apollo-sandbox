@@ -1,0 +1,27 @@
+{
+  "name": "apollo-sandbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardimaoka/apollo-sandbox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardimaoka/apollo-sandbox/issues"
+  },
+  "homepage": "https://github.com/richardimaoka/apollo-sandbox#readme",
+  "dependencies": {
+    "apollo-server": "^3.5.0",
+    "graphql": "^15.7.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8"
+  }
+}
