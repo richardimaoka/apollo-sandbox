@@ -1,4 +1,8 @@
 import { ApolloServer, gql } from "apollo-server";
+import { GraphQLScalarType, Kind } from "graphql";
+import { ScalarNameTypeDefinition } from "graphql-scalars";
+
+const a = ScalarNameTypeDefinition;
 
 // GraphQLスキーマの定義
 const typeDefs = gql`
