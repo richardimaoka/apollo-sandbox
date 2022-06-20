@@ -1,37 +1,36 @@
 import { ApolloServer, gql } from "apollo-server";
-import { GraphQLScalarType, Kind } from "graphql";
-import { ScalarNameTypeDefinition } from "graphql-scalars";
-
-const a = ScalarNameTypeDefinition;
 
 // GraphQLスキーマの定義
 const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
+  type Query {
+    feed(offset: Int, limit: Int): [Node]
   }
 
-  type Query {
-    books: [Book!]!
+  type Node {
+    id: ID
+    name: String
+    age: Int
   }
 `;
 
 // サンプルデータの定義
-const books = [
+const nodes = [
   {
-    title: "The Awakening",
-    author: "Kate Chopin",
+    id: "657w3890-rotghj",
+    name: "Kate Chopin",
   },
   {
-    title: "City of Glass",
-    author: "Paul Auster",
+    id: "124saer084-rotsaer7hj",
+    name: "Jasmin Jigsaw",
   },
 ];
 
 // リゾルバーの定義
 const resolvers = {
   Query: {
-    books: () => books,
+    feed() {
+      return nodes;
+    },
   },
 };
 
